@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusPrice AI - Estrategia Digital Fluida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta Neón Vibrante */
+            --color1-start: #FF007A; --color1-end: #FF6B00;
+            --color2-start: #7000FF; --color2-end: #0019FF;
+            --color3-start: #00F2FF; --color3-end: #00FF94;
+            --color4-start: #FFD600; --color4-end: #FF6B00;
+            
+            --bg: #F8F9FB; /* Fondo claro premium */
+            --card-bg: #FFFFFF;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            color: #1D1D1F;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* CAPAS DE GRADIENTE VERTICAL (LENTE CENTRAL) */
+        .lens-overlay {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 10vh; /* Más delgadas */
+            z-index: 100;
+            pointer-events: none;
+            backdrop-filter: grayscale(1) blur(5px);
+        }
+        /* El gradiente va de Sólido en el extremo a Transparente hacia el centro */
+        .top { 
+            top: 0; 
+            background: linear-gradient(to bottom, 
+                var(--bg) 0%, 
+                rgba(248, 249, 251, 0.8) 40%, 
+                rgba(248, 249, 251, 0) 100%); 
+        }
+        .bottom { 
+            bottom: 0; 
+            background: linear-gradient(to top, 
+                var(--bg) 0%, 
+                rgba(248, 249, 251, 0.8) 40%, 
+                rgba(248, 249, 251, 0) 100%); 
+        }
+
+        .infographic-container {
+            position: relative;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40vh 20px;
+        }
+
+        .flow-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: rgba(0,0,0,0.04);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .step-section {
+            position: relative;
+            margin-bottom: 40px; /* Muy juntos para fluidez */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+            will-change: transform, opacity;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 45px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+            filter: grayscale(1);
+            transform: scale(0.92);
+            opacity: 0.15;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            margin: 0 0 12px 0;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .theory-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f0f0f0;
+            color: #999;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.65rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .grid-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #f4f4f4;
+            padding-top: 25px;
+        }
+
+        .grid-item h3 { font-size: 1rem; margin-bottom: 8px; font-weight: 700; }
+        .grid-item p { font-size: 0.9rem; line-height: 1.6; color: #555; margin: 0; }
+
+        .connection-node {
+            position: absolute;
+            width: 16px; height: 16px;
+            background: #D1D1D6;
+            border-radius: 50%;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            box-shadow: 0 0 0 6px var(--bg);
+        }
+
+        .card-accent-line {
+            position: absolute;
+            left: 0; top: 0; width: 6px; height: 100%;
+            transform: scaleY(0);
+            transition: transform 0.4s ease;
+        }
+
+
+        html {
+        scroll-behavior: smooth;
+        /* Esto ayuda a que el desplazamiento sea más inercial */
+        }
+
+        body {
+        /* Opcional: aumenta la altura total para forzar un scroll más largo */
+        min-height: 50vh; 
+        }
+
+    </style>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+    <div class="lens-overlay top"></div>
+    <div class="lens-overlay bottom"></div>
+
+    <div class="infographic-container">
+        <div class="flow-line"></div>
+
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#1D1D1F" data-c2="#434343">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #1D1D1F, #434343);"></div>
+                <span class="theory-badge">Estudiante / Investigador 🎓</span>
+                <h1 style="background-image: linear-gradient(90deg, #1D1D1F, #8E8E93); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin: 0;">Julián Andrés Gutiérrez Londoño</h1>
+                <p style="margin-top: 10px; font-weight: 700; color: #8E8E93; letter-spacing: 2px;">BROWARD INTERNATIONAL UNIVERSITY</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Asignatura</h3>
+                        <p>Gestión Comercial con Inteligencia Artificial</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>ID de Tarea</h3>
+                        <p>Tarea de asignación #4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#007AFF" data-c2="#5856D6">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #007AFF, #5856D6);"></div>
+                <span class="theory-badge">Project Title 📁</span>
+                <h2 style="background-image: linear-gradient(90deg, #007AFF, #5856D6);">Diseño Preliminar de Estrategia Digital</h2>
+                <p style="font-size: 1.2rem; color: #1D1D1F;">Propuesta Estratégica para la plataforma <strong>NexusPrice AI</strong>.</p>
+                <div class="grid-content" style="grid-template-columns: 1fr;">
+                    <div class="grid-item">
+                        <p>Un ecosistema inteligente diseñado para optimizar el consumo masivo mediante análisis predictivo de datos y transparencia algorítmica.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#5AC8FA" data-c2="#007AFF">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #5AC8FA, #007AFF);"></div>
+                <span class="theory-badge">Introducción y Justificación 📝</span>
+                <h2 style="background-image: linear-gradient(90deg, #5AC8FA, #007AFF);">Contexto del Proyecto</h2>
+                <p style="line-height: 1.6; color: #48484A;">
+                    En un mercado saturado de información y variaciones de precio volátiles, el consumidor moderno enfrenta una fatiga de decisión constante. Esta estrategia preliminar busca fundamentar el lanzamiento de <strong>NexusPrice AI</strong>, no solo como una herramienta técnica, sino como un aliado ético que utiliza la Inteligencia Artificial para devolver el poder adquisitivo al usuario.
+                </p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Objetivo</h3>
+                        <p>Diseñar una hoja de ruta multicanal basada en medios orgánicos para asegurar escalabilidad y confianza.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Enfoque</h3>
+                        <p>Metodología Data-Driven centrada en el valor al cliente y la autoridad técnica.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#007AFF" data-c2="#00C7FF">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #007AFF, #00C7FF);"></div>
+                <span class="theory-badge">Core Identity 🧠</span>
+                <h2>01. Misión de Marca</h2>
+                <p>Establecer a NexusPrice AI como el **estándar de transparencia** en el comercio electrónico global.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Visión</h3>
+                        <p>Eliminar la asimetría de información entre grandes retailers y el consumidor final.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Valores</h3>
+                        <p>Ética algorítmica, neutralidad comercial y precisión de datos en tiempo real.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#5856D6" data-c2="#AF52DE">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #5856D6, #AF52DE);"></div>
+                <span class="theory-badge">Market Analysis 👥</span>
+                <h2>02. Target de Precisión</h2>
+                <p>Identificación de segmentos con alta sensibilidad al precio y alfabetización digital avanzada.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Perfil</h3>
+                        <p>Smart Shoppers: Profesionales de 25-45 años que optimizan su presupuesto mensual.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Necesidad</h3>
+                        <p>Reducción del tiempo de búsqueda y validación de ofertas "reales".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#FF2D55" data-c2="#FF5E3A">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #FF2D55, #FF5E3A);"></div>
+                <span class="theory-badge">Growth Strategy 🚀</span>
+                <h2>03. Adquisición Inbound</h2>
+                <p>Uso de contenido educativo para captar tráfico en la etapa de **Conciencia del Problema**.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Táctica SEO</h3>
+                        <p>Palabras clave de intención: "Mejor momento para comprar", "Comparativa real".</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Blog Lab</h3>
+                        <p>Artículos técnicos sobre inflación tecnológica y tendencias de consumo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#FF9500" data-c2="#FFCC00">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #FF9500, #FFCC00);"></div>
+                <span class="theory-badge">Conversion Rate 📈</span>
+                <h2>04. Optimización de Conversión</h2>
+                <p>Diseño de micro-conversiones para alimentar el algoritmo de personalización de la IA.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Lead Magnet</h3>
+                        <p>Extensiones de navegador que alertan sobre precios sin salir de la tienda.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>UX Trust</h3>
+                        <p>Interfaz limpia con indicadores visuales de "Precio Mínimo Histórico".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#34C759" data-c2="#00D2FF">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #34C759, #00D2FF);"></div>
+                <span class="theory-badge">Technical Stack ⚙️</span>
+                <h2>05. Motor de Extracción</h2>
+                <p>Infraestructura de scraping escalable basada en Python y computación en la nube.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Tecnología</h3>
+                        <p>Uso de Scrapy y Selenium para monitoreo de 500+ tiendas simultáneamente.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>IA Core</h3>
+                        <p>Modelos predictivos que anticipan rebajas basadas en patrones estacionales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#007AFF" data-c2="#5856D6">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #007AFF, #5856D6);"></div>
+                <span class="theory-badge">Data Intelligence 📊</span>
+                <h2>06. Medición y Atribución</h2>
+                <p>Implementación de Google Analytics 4 bajo un enfoque de **First-Party Data**.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Métricas</h3>
+                        <p>Seguimiento de ROAS orgánico y tiempo de permanencia en comparativas.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Insights</h3>
+                        <p>Mapas de calor para detectar puntos de fricción en la selección de productos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#AF52DE" data-c2="#FF2D55">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #AF52DE, #FF2D55);"></div>
+                <span class="theory-badge">Social Channels 📱</span>
+                <h2>07. Presencia Vertical</h2>
+                <p>Estrategia de video corto para demostrar el valor de la IA de forma tangible.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>TikTok/Reels</h3>
+                        <p>Tutoriales rápidos: "Cómo ahorré 20% en 10 segundos con NexusPrice".</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>LinkedIn</h3>
+                        <p>Networking corporativo para alianzas B2B con proveedores de tecnología.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#5AC8FA" data-c2="#007AFF">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #5AC8FA, #007AFF);"></div>
+                <span class="theory-badge">Direct Messaging 📩</span>
+                <h2>08. Notificaciones de Valor</h2>
+                <p>Canales de empuje (Push) que mantienen la marca en el **Top of Mind**.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Telegram Bot</h3>
+                        <p>Alertas de "Drop" de precio inmediatas para ofertas relámpago.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Email Smart</h3>
+                        <p>Newsletter semanal personalizada con el top 5 de ahorros del usuario.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#4CD964" data-c2="#34C759">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #4CD964, #34C759);"></div>
+                <span class="theory-badge">Owned Media 🏠</span>
+                <h2>09. Ecosistema Propio</h2>
+                <p>Desarrollo de activos digitales que no dependen de algoritmos de terceros.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Web Platform</h3>
+                        <p>Interfaz optimizada para dispositivos móviles (PWA) de carga instantánea.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>CRM Labs</h3>
+                        <p>Base de datos enriquecida con preferencias de compra para futuras predicciones.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#FFCC00" data-c2="#FF9500">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #FFCC00, #FF9500);"></div>
+                <span class="theory-badge">Earned Authority 🏆</span>
+                <h2>10. Autoridad Ganada</h2>
+                <p>Gestión de la reputación orgánica mediante la entrega de valor real.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Digital PR</h3>
+                        <p>Aparición en blogs de finanzas personales como herramienta recomendada.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Backlinks</h3>
+                        <p>Generación de enlaces desde foros especializados (Reddit/Forocoches).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#FF3B30" data-c2="#FF2D55">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #FF3B30, #FF2D55);"></div>
+                <span class="theory-badge">Social Proof ⭐</span>
+                <h2>11. Prueba Social</h2>
+                <p>Transformar a los usuarios en embajadores de la eficiencia de NexusPrice.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>UGC Content</h3>
+                        <p>Incentivar capturas de pantalla de ahorros reales compartidas en redes.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Reviews</h3>
+                        <p>Sistema de valoración de ofertas validado por la propia comunidad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-section">
+            <div class="connection-node"></div>
+            <div class="info-card" data-c1="#1D1D1F" data-c2="#8E8E93">
+                <div class="card-accent-line" style="background: linear-gradient(to bottom, #1D1D1F, #8E8E93);"></div>
+                <span class="theory-badge">Long Term Roadmap 🌍</span>
+                <h2>12. Visión Escalable</h2>
+                <p>Evolución hacia un marketplace inteligente sin inventario físico.</p>
+                <div class="grid-content">
+                    <div class="grid-item">
+                        <h3>Internacionalización</h3>
+                        <p>Adaptación de la IA a mercados con monedas volátiles (Latam/Europa).</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>API Business</h3>
+                        <p>Apertura de datos para que otras webs integren nuestro motor de precios.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.info-card');
+        const nodes = document.querySelectorAll('.connection-node');
+        const center = window.innerHeight / 2;
+
+        function updateScroll() {
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const cardMid = rect.top + (rect.height / 2);
+                const dist = Math.abs(center - cardMid);
+                
+                let intensity = 1 - (dist / 300);
+                intensity = Math.max(0, Math.min(1, intensity));
+
+                card.style.transform = `scale(${0.92 + (intensity * 0.08)})`;
+                card.style.opacity = 0.15 + (intensity * 0.85);
+                card.style.filter = `grayscale(${(1 - intensity) * 100}%)`;
+
+                const line = card.querySelector('.card-accent-line');
+                const badge = card.querySelector('.theory-badge');
+                const c1 = card.dataset.c1;
+
+                if(intensity > 0.8) {
+                    line.style.transform = "scaleY(1)";
+                    nodes[index].style.background = `linear-gradient(135deg, ${c1}, ${card.dataset.c2})`;
+                    nodes[index].style.transform = "translate(-50%, -50%) scale(1.5)";
+                    badge.style.background = `${c1}15`;
+                    badge.style.color = c1;
+                } else {
+                    line.style.transform = "scaleY(0)";
+                    nodes[index].style.background = "#D1D1D6";
+                    nodes[index].style.transform = "translate(-50%, -50%) scale(1)";
+                    badge.style.background = "#f0f0f0";
+                    badge.style.color = "#999";
+                }
+            });
+            requestAnimationFrame(updateScroll);
+        }
+        requestAnimationFrame(updateScroll);
+    </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+</html>
